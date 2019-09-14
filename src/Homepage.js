@@ -30,7 +30,7 @@ class Homepage extends Component {
     return (
       <div className="App">
         <div className="App-header" style={{}}>
-          <h2>Welcome to React</h2>
+          <Typography h2>Welcome to app</Typography>
         </div>
         <Grid
           container
@@ -44,11 +44,16 @@ class Homepage extends Component {
               className={classes.card}
               style={{
                 maxWidth: 800,
-                margin: "50px"
+                margin: "10px"
               }}
             >
-              <CardContent>
+              <CardContent
+                style={{
+                  minWidth: 400
+                }}
+              >
                 <Typography
+                  variant="h4"
                   className={classes.title}
                   color="textSecondary"
                   gutterBottom
@@ -56,7 +61,88 @@ class Homepage extends Component {
                   Text Upload
                 </Typography>
                 <Typography variant="h5" component="h2">
-                  Lorem ipsum
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Grid
+                  xs={12}
+                  direction="column"
+                  alignItems="center"
+                  justify="center"
+                >
+                  <Button variant="contained" color="primary">
+                    Upload
+                  </Button>
+                </Grid>
+              </CardActions>
+            </Card>
+          </Grid>
+          <Grid item lg={12}>
+            <Card
+              className={classes.card}
+              style={{
+                maxWidth: 800,
+                margin: "10px"
+              }}
+            >
+              <CardContent
+                style={{
+                  minWidth: 400
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  Text Upload
+                </Typography>
+                <Typography variant="h5" component="h2">
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Grid
+                  xs={12}
+                  direction="column"
+                  alignItems="center"
+                  justify="center"
+                >
+                  <Button variant="contained" color="primary">
+                    Upload
+                  </Button>
+                </Grid>
+              </CardActions>
+            </Card>
+          </Grid>
+          <Grid item lg={12}>
+            <Card
+              className={classes.card}
+              style={{
+                maxWidth: 800,
+                margin: "10px"
+              }}
+            >
+              <CardContent
+                style={{
+                  minWidth: 400
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  Text Upload
+                </Typography>
+                <Typography variant="h5" component="h2">
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
                 </Typography>
               </CardContent>
               <CardActions>
