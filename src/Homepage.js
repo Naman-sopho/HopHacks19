@@ -7,6 +7,16 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/styles";
+import * as ACTIONS from "../store/actions";
+import { connect } from "react-redux";
+
+const mapStateToProps = state => ({
+  items: state.items
+});
+
+const mapDispatchToProps = dispatch => ({
+  createItem: ACTIONS.createItem
+});
 
 const classes = makeStyles({
   card: {
@@ -72,8 +82,12 @@ class Homepage extends Component {
                   alignItems="center"
                   justify="center"
                 >
-                  <Button variant="contained" color="primary">
-                    Upload
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.props.createItem()}
+                  >
+                    Upload!!
                   </Button>
                 </Grid>
               </CardActions>
@@ -165,4 +179,7 @@ class Homepage extends Component {
   }
 }
 
-export default withStyles(classes, { withTheme: true })(Homepage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(classes)(Homepage));
