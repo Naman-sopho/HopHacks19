@@ -9,13 +9,16 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/styles";
 import * as ACTIONS from "../store/actions";
 import { connect } from "react-redux";
+import TextField from "@material-ui/core/TextField";
 
 const mapStateToProps = state => ({
-  items: state.items
+  items: state.items,
+  img: state.imageUrl
 });
 
 const mapDispatchToProps = dispatch => ({
-  createItem: ACTIONS.createItem
+  createItem: ACTIONS.createItem,
+  getImageURL: ACTIONS.getImageURL
 });
 
 const classes = makeStyles({
@@ -36,6 +39,20 @@ const classes = makeStyles({
 });
 
 class Homepage extends Component {
+  state = {
+    text: "",
+    img: ""
+  };
+
+  handleChange = item => {
+    this.setState({
+      text: item.target.value
+    });
+  };
+
+  textToImage = () => {
+    this.props.getImageURL(this.state.text);
+  };
   render() {
     return (
       <div className="App">
@@ -68,7 +85,7 @@ class Homepage extends Component {
                   color="textSecondary"
                   gutterBottom
                 >
-                  Text Upload
+                  Text File Upload
                 </Typography>
                 <Typography variant="h5" component="h2">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
@@ -112,11 +129,12 @@ class Homepage extends Component {
                   color="textSecondary"
                   gutterBottom
                 >
-                  Text Upload
+                  Image Upload
                 </Typography>
                 <Typography variant="h5" component="h2">
                   Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   laboris nisi ut aliquip ex ea commodo consequat.
+                  {this.state.img}
                 </Typography>
               </CardContent>
               <CardActions>
@@ -152,12 +170,20 @@ class Homepage extends Component {
                   color="textSecondary"
                   gutterBottom
                 >
-                  Text Upload
+                  Text Input
                 </Typography>
                 <Typography variant="h5" component="h2">
                   Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   laboris nisi ut aliquip ex ea commodo consequat.
                 </Typography>
+                <TextField
+                  id="standard-name"
+                  label="Name"
+                  className={classes.textField}
+                  value={this.state.text}
+                  onChange={this.handleChange}
+                  margin="normal"
+                />
               </CardContent>
               <CardActions>
                 <Grid
@@ -166,7 +192,11 @@ class Homepage extends Component {
                   alignItems="center"
                   justify="center"
                 >
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.textToImage}
+                  >
                     Upload
                   </Button>
                 </Grid>

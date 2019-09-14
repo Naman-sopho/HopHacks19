@@ -2,7 +2,8 @@ import * as ACTIONS from "./actions";
 import _ from "lodash";
 
 const defaultState = {
-  items: []
+  items: [],
+  imageUrl: ""
 };
 
 const todoReducer = (state = defaultState, action) => {
@@ -14,6 +15,13 @@ const todoReducer = (state = defaultState, action) => {
         ...state,
         items: action.payload
       });
+    }
+
+    case ACTIONS.GET_IMAGE_URL: {
+      return {
+        ...state,
+        imageUrl: action.payload
+      };
     }
 
     default:
