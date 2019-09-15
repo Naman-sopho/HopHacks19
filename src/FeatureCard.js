@@ -12,32 +12,16 @@ import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import { AppBar, Fab, Icon, IconButton } from "@material-ui/core/";
 
-const classes = makeStyles({
-  card: {
-    minWidth: 275
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
-  title: {
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
-  }
-});
-
 class FeatureCard extends Component {
   render() {
     return (
       <Card
-        className={classes.card}
         style={{
           maxWidth: 500,
           minHeight: 300,
-          margin: "10px"
+          margin: "10px",
+           backgroundColor: "transparent",
+            boxShadow: "none"
         }}
       >
         <CardContent
@@ -45,13 +29,8 @@ class FeatureCard extends Component {
             minWidth: 400
           }}
         >
-          <Typography
-            variant="h4"
-            className={classes.title}
-            color="textSecondary"
-            gutterBottom
-          >
-            <Icon style={{margin:'2px', 'padding-right': '4px'}}>
+          <Typography variant="h4" color="textSecondary" gutterBottom>
+            <Icon style={{ margin: "2px", "padding-right": "4px" }}>
               {this.props.icon}
             </Icon>
             {this.props.title}
@@ -62,9 +41,8 @@ class FeatureCard extends Component {
           <TextField
             id="standard-name"
             label={this.props.placeholder}
-            className={classes.textField}
             value={this.props.value}
-            onChange={this.props.handleChange}
+            onChange={e => this.props.handleChange(e.target.value)}
             margin="normal"
           />
         </CardContent>
@@ -72,7 +50,7 @@ class FeatureCard extends Component {
           <Grid xs={12} direction="column" alignItems="center" justify="center">
             <Fab
               variant="extended"
-              color="secondary"
+              color="primary"
               onClick={this.props.handleClick}
             >
               Upload
@@ -84,4 +62,4 @@ class FeatureCard extends Component {
   }
 }
 
-export default withStyles(classes)(FeatureCard);
+export default FeatureCard;

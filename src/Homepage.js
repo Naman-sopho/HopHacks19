@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
+import { Icon, CardHeader } from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -10,15 +11,23 @@ import { withStyles } from "@material-ui/styles";
 import * as ACTIONS from "../store/actions";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
-import { AppBar, Fab, IconButton, CardMedia, CardActionArea } from "@material-ui/core/";
+import {
+  AppBar,
+  Fab,
+  IconButton,
+  CardMedia,
+  CardActionArea
+} from "@material-ui/core/";
 import FeatureCard from "./FeatureCard";
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
+import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import SkipNextIcon from "@material-ui/icons/SkipNext";
+import axios from "axios";
 
 const mapStateToProps = state => ({
   items: state.items,
-  img: state.imageUrl
+  img: state.imageUrl,
+  textarea: state.imageToTextVec
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -27,7 +36,7 @@ const mapDispatchToProps = dispatch => ({
   handleImageToText: ACTIONS.handleImageToText(dispatch)
 });
 
-const classes = makeStyles((theme)=>({
+const classes = makeStyles(theme => ({
   card: {
     minWidth: 275
   },
@@ -43,42 +52,43 @@ const classes = makeStyles((theme)=>({
     marginBottom: 12
   },
   card: {
-    display: 'flex',
+    display: "flex"
   },
   details: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column"
   },
   content: {
-    flex: '1 0 auto',
+    flex: "1 0 auto"
   },
   cover: {
-    width: 151,
+    width: 151
   },
   controls: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    paddingBottom: theme.spacing(1)
   },
   playIcon: {
     height: 38,
-    width: 38,
-  },
+    width: 38
+  }
 }));
 
 class Homepage extends Component {
   state = {
     text: "",
     img: "",
-    imageLink: ""
+    imageLink: "",
+    textarea: ""
   };
 
-  handleChange = item => {
-    this.setState({
-      text: item.target.value
-    });
-  };
+  // handleChange = item => {
+  //   this.setState({
+  //     text: item.target.value
+  //   });
+  // };
 
   textToImage = () => {
     this.props.getImageURL(this.state.text);
@@ -86,43 +96,78 @@ class Homepage extends Component {
 
   handleChangeImageLink = item => {
     this.setState({
-      imageLink: item.target.value
+      imageLink: item
     });
   };
 
   handleImage = () => {
-    console.log("dksf");
-    this.props.handleImageToText(this.state.imageLink);
+    const data = {
+      requests: [
+        {
+          image: {
+            source: {
+              imageUri: this.state.imageLink
+            }
+          },
+          features: [
+            {
+              type: "TEXT_DETECTION"
+            }
+          ]
+        }
+      ]
+    };
+    const GOOGLE_API = "https://vision.googleapis.com/v1/images:annotate";
+    axios
+      .post(GOOGLE_API + "/?key=AIzaSyBXsxfHKx_A35XXmU28XDMtUliuWIXTDf0", data)
+      .then(response => {
+        console.log(response.data);
+        this.setState({
+          textarea: response.data.responses[0].fullTextAnnotation.text
+        });
+      });
+  };
+
+  handleTextInput = item => {
+    this.setState({
+      text: item
+    });
+  };
+
+  handleText = () => {
+    this.setState({
+      textarea: this.state.text
+    });
   };
 
   render() {
-    const {theme} = this.props;
+    var backImgUrl =
+      "https://backgroundcheckall.com/wp-content/uploads/2017/12/light-background-colours-8.jpg";
     return (
       <div
         className="App"
         style={{
-          backgroundImage: `url(${"https://s3.amazonaws.com/ceblog/wp-content/uploads/2011/12/pick-website-color-combination.jpg"})`,
-          flex: 1,
-          width: null,
+          backgroundImage: `url(${backImgUrl})`,
+          flex:1,
           height: null,
-          resizeMode: "cover"
+          width:null
         }}
       >
         <div className="App-header">
           <AppBar position="sticky" style={{ width: "100%" }}>
-            <Typography variant="h3">The App</Typography>
+            <Typography variant="h3">CeleAI.tech</Typography>
           </AppBar>
         </div>
-        <Grid container lg={12} m-8 p-4>
+        <Grid container lg={12} style={{ margin: "8px", padding: "4px" }}>
           <Grid item lg={4}>
             <FeatureCard
               title="Image"
-              details="Lorem ipsum dolor sit amet"
+              details=""
               placeholder="Link to image"
               value={this.state.imageLink}
               handleChange={this.handleChangeImageLink}
               handleClick={this.handleImage}
-              icon={'image'}
+              icon={"image"}
             />
           </Grid>
           <Grid item lg={4}>
@@ -133,7 +178,7 @@ class Homepage extends Component {
               value=""
               handleChange={this.handleSpeechChange}
               handleClick={this.handleSpeech}
-              icon={'record_voice_over'}
+              icon={"record_voice_over"}
             />
           </Grid>
           <Grid item lg={4}>
@@ -144,7 +189,7 @@ class Homepage extends Component {
               value={this.state.text}
               handleChange={this.handleTextInput}
               handleClick={this.handleText}
-              icon={'text_fields'}
+              icon={"text_fields"}
             />
           </Grid>
         </Grid>
@@ -152,36 +197,69 @@ class Homepage extends Component {
         <Grid
           container
           lg={12}
+          spacing={0}
+          direction="column"
           alignItems="center"
           justify="center"
-          direction="row"
         >
-          <Card>
-            <Grid item lg={10} style={{ height: "20vw", width: "80vw" }}>
-              <Typography variant="subheading">sdfdsd</Typography>
+          <Card style={{ backgroundColor: "transparent" }}>
+            <Grid item lg={10} style={{ height: "20vw", width: "70vw" }}>
+              <CardActionArea>
+                <Typography variant="h4">Parsed Text</Typography>
+              </CardActionArea>
+              <Typography variant="subtitle">
+                {this.state.textarea
+                  ? this.state.textarea
+                  : "Your text will appear here!!"}
+              </Typography>
             </Grid>
           </Card>
         </Grid>
-        <Grid container lg={12} justifyContent="center" alignContent="center">
-          <Grid item lg={5}>
-          <Card className={classes.card}>
+
+        <Grid
+          container
+          lg={12}
+          style={{ margin: "20px" }}
+          spacing={0}
+          direction="row"
+          alignItems="center"
+          justify="center"
+        >
+          <Grid item lg={4}>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ margin: "3px" }}
+            >
+              <Icon>image</Icon>Text to Image
+            </Button>
+          </Grid>
+          <Grid item lg={4}>
+            <Button variant="contained" color="primary">
+              <Icon>music_note</Icon>Text to Song
+            </Button>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          lg={12}
+          spacing={0}
+          direction="row"
+          alignItems="center"
+          justify="center"
+          style={{ minHeight: "100vh" }}
+        >
+          <Grid item md={3} style={{ margin: "30px", padding: "4px" }}>
+            <Card className={classes.card} style={{ minHeight: "20vw" }}>
               <CardActionArea>
                 <CardMedia
                   component="img"
                   alt="Contemplative Reptile"
                   //height="140"
-                  image="/static/images/cards/contemplative-reptile.jpg"
+                  image="https://placeimg.com/350/225/any"
                   title="Contemplative Reptile"
                 />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Lizard
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                    across all continents except Antarctica
-                  </Typography>
-                </CardContent>
               </CardActionArea>
               <CardActions>
                 <Button size="small" color="primary">
@@ -193,8 +271,8 @@ class Homepage extends Component {
               </CardActions>
             </Card>
           </Grid>
-          <Grid item lg={5} mt-12>
-          <Card className={classes.card}>
+          <Grid item md={3} style={{ margin: "30px", padding: "4px" }}>
+            <Card className={classes.card} style={{ minHeight: "20vw" }}>
               <div className={classes.details}>
                 <CardContent className={classes.content}>
                   <Typography component="h5" variant="h5">
@@ -218,9 +296,12 @@ class Homepage extends Component {
               </div>
               <CardMedia
                 className={classes.cover}
-                image="/static/images/cards/live-from-space.jpg"
+                image="https://www.macworld.co.uk/cmsdata/features/3612963/how_to_get_music_on_iphone_1600home_thumb800.jpg"
                 title="Live from space album cover"
               />
+              <CardActions>
+                <Typography>Alternative Solutions</Typography>
+              </CardActions>
             </Card>
           </Grid>
         </Grid>

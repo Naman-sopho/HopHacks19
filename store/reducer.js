@@ -7,7 +7,7 @@ const defaultState = {
   imageToTextVec: ""
 };
 
-const todoReducer = (state = defaultState, action) => {
+const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case ACTIONS.CREATE_ITEM: {
       console.log(action);
@@ -26,10 +26,9 @@ const todoReducer = (state = defaultState, action) => {
     }
 
     case ACTIONS.IMAGE_TO_TEXT: {
-      console.log(action.payload);
       return {
         ...state,
-        imageToTextVec: action.payload
+        imageToTextVec: action.payload.responses[0].fullTextAnnotation.text
       };
     }
 
@@ -38,4 +37,4 @@ const todoReducer = (state = defaultState, action) => {
   }
 };
 
-export default todoReducer;
+export default reducer;

@@ -47,29 +47,6 @@ export function textToMusic(dispatch) {
 
 export function handleImageToText(dispatch) {
   return imageLink => {
-    const data = {
-      requests: [
-        {
-          image: {
-            source: {
-              imageUri: imageLink
-            }
-          },
-          features: [
-            {
-              type: "TEXT_DETECTION"
-            }
-          ]
-        }
-      ]
-    };
-    axios
-      .post(GOOGLE_API + "/?key=AIzaSyBXsxfHKx_A35XXmU28XDMtUliuWIXTDf0", data)
-      .then(response => {
-        dispatch({
-          type: IMAGE_TO_TEXT,
-          payload: response.data
-        });
-      });
+    
   };
 }
