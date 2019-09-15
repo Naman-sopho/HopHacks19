@@ -10,7 +10,7 @@ import { withStyles } from "@material-ui/styles";
 import * as ACTIONS from "../store/actions";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
-import { AppBar, Fab } from "@material-ui/core/";
+import { AppBar, Fab, Icon, IconButton } from "@material-ui/core/";
 
 const classes = makeStyles({
   card: {
@@ -35,7 +35,8 @@ class FeatureCard extends Component {
       <Card
         className={classes.card}
         style={{
-          maxWidth: 800,
+          maxWidth: 500,
+          minHeight: 300,
           margin: "10px"
         }}
       >
@@ -50,6 +51,9 @@ class FeatureCard extends Component {
             color="textSecondary"
             gutterBottom
           >
+            <Icon style={{margin:'2px', 'padding-right': '4px'}}>
+              {this.props.icon}
+            </Icon>
             {this.props.title}
           </Typography>
           <Typography variant="h5" component="h2">
@@ -80,4 +84,4 @@ class FeatureCard extends Component {
   }
 }
 
-export default (withStyles(classes)(FeatureCard));
+export default withStyles(classes)(FeatureCard);
