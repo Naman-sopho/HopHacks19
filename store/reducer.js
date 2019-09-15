@@ -3,7 +3,8 @@ import _ from "lodash";
 
 const defaultState = {
   items: [],
-  imageUrl: ""
+  imageUrl: "",
+  imageToTextVec: ""
 };
 
 const todoReducer = (state = defaultState, action) => {
@@ -21,6 +22,14 @@ const todoReducer = (state = defaultState, action) => {
       return {
         ...state,
         imageUrl: action.payload
+      };
+    }
+
+    case ACTIONS.IMAGE_TO_TEXT: {
+      console.log(action.payload);
+      return {
+        ...state,
+        imageToTextVec: action.payload
       };
     }
 

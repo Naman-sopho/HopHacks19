@@ -18,7 +18,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   createItem: ACTIONS.createItem,
-  getImageURL: ACTIONS.getImageURL
+  getImageURL: ACTIONS.getImageURL(dispatch),
+  handleImageToText: ACTIONS.handleImageToText(dispatch)
 });
 
 const classes = makeStyles({
@@ -41,7 +42,8 @@ const classes = makeStyles({
 class Homepage extends Component {
   state = {
     text: "",
-    img: ""
+    img: "",
+    imageLink: ""
   };
 
   handleChange = item => {
@@ -53,6 +55,18 @@ class Homepage extends Component {
   textToImage = () => {
     this.props.getImageURL(this.state.text);
   };
+
+  handleChangeImageLink = item => {
+    this.setState({
+      imageLink: item.target.value
+    });
+  };
+
+  handleImage = () => {
+    console.log("dksf");
+    this.props.handleImageToText(this.state.imageLink);
+  };
+
   render() {
     return (
       <div className="App">
@@ -136,6 +150,14 @@ class Homepage extends Component {
                   laboris nisi ut aliquip ex ea commodo consequat.
                   {this.state.img}
                 </Typography>
+                <TextField
+                  id="standard-name"
+                  label="Link to image"
+                  className={classes.textField}
+                  value={this.state.imageLink}
+                  onChange={this.handleChangeImageLink}
+                  margin="normal"
+                />
               </CardContent>
               <CardActions>
                 <Grid
@@ -144,7 +166,11 @@ class Homepage extends Component {
                   alignItems="center"
                   justify="center"
                 >
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleImage}
+                  >
                     Upload
                   </Button>
                 </Grid>
@@ -178,7 +204,7 @@ class Homepage extends Component {
                 </Typography>
                 <TextField
                   id="standard-name"
-                  label="Name"
+                  label="Text"
                   className={classes.textField}
                   value={this.state.text}
                   onChange={this.handleChange}
