@@ -10,6 +10,8 @@ import { withStyles } from "@material-ui/styles";
 import * as ACTIONS from "../store/actions";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
+import { AppBar, Fab } from "@material-ui/core/";
+import FeatureCard from "./FeatureCard";
 
 const mapStateToProps = state => ({
   items: state.items,
@@ -69,166 +71,56 @@ class Homepage extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="App-header" style={{}}>
-          <Typography h2>Welcome to app</Typography>
+      <div
+        className="App"
+        style={{
+          backgroundImage: `url(${"https://s3.amazonaws.com/ceblog/wp-content/uploads/2011/12/pick-website-color-combination.jpg"})`,
+          flex: 1,
+          width: null,
+          height: null,
+          resizeMode: "cover"
+        }}
+      >
+        <div className="App-header">
+          <AppBar position="sticky" style={{'width': '100%'}}>
+            <Typography variant="h3">The App</Typography>
+          </AppBar>
         </div>
-        <Grid
-          container
-          lg={12}
-          direction="column"
-          alignItems="center"
-          justify="center"
-        >
-          <Grid item lg={12}>
-            <Card
-              className={classes.card}
-              style={{
-                maxWidth: 800,
-                margin: "10px"
-              }}
-            >
-              <CardContent
-                style={{
-                  minWidth: 400
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Text File Upload
-                </Typography>
-                <Typography variant="h5" component="h2">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Grid
-                  xs={12}
-                  direction="column"
-                  alignItems="center"
-                  justify="center"
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.props.createItem()}
-                  >
-                    Upload!!
-                  </Button>
-                </Grid>
-              </CardActions>
-            </Card>
+        <Grid container lg={12}>
+          <Grid item lg={4}>
+            <FeatureCard
+              title="Image"
+              details="Lorem ipsum dolor sit amet"
+              placeholder="Link to image"
+              value={this.state.imageLink}
+              handleChange={this.handleChangeImageLink}
+              handleClick={this.handleImage}
+            />
           </Grid>
-          <Grid item lg={12}>
-            <Card
-              className={classes.card}
-              style={{
-                maxWidth: 800,
-                margin: "10px"
-              }}
-            >
-              <CardContent
-                style={{
-                  minWidth: 400
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Image Upload
-                </Typography>
-                <Typography variant="h5" component="h2">
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                  {this.state.img}
-                </Typography>
-                <TextField
-                  id="standard-name"
-                  label="Link to image"
-                  className={classes.textField}
-                  value={this.state.imageLink}
-                  onChange={this.handleChangeImageLink}
-                  margin="normal"
-                />
-              </CardContent>
-              <CardActions>
-                <Grid
-                  xs={12}
-                  direction="column"
-                  alignItems="center"
-                  justify="center"
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleImage}
-                  >
-                    Upload
-                  </Button>
-                </Grid>
-              </CardActions>
-            </Card>
+          <Grid item lg={4}>
+            <FeatureCard
+              title="Speech"
+              details=""
+              placeholder="Speech file"
+              value=""
+              handleChange=""
+              handleClick=""
+            />
           </Grid>
-          <Grid item lg={12}>
-            <Card
-              className={classes.card}
-              style={{
-                maxWidth: 800,
-                margin: "10px"
-              }}
-            >
-              <CardContent
-                style={{
-                  minWidth: 400
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Text Input
-                </Typography>
-                <Typography variant="h5" component="h2">
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </Typography>
-                <TextField
-                  id="standard-name"
-                  label="Text"
-                  className={classes.textField}
-                  value={this.state.text}
-                  onChange={this.handleChange}
-                  margin="normal"
-                />
-              </CardContent>
-              <CardActions>
-                <Grid
-                  xs={12}
-                  direction="column"
-                  alignItems="center"
-                  justify="center"
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.textToImage}
-                  >
-                    Upload
-                  </Button>
-                </Grid>
-              </CardActions>
-            </Card>
+          <Grid item lg={4}>
+            <FeatureCard
+              title="Text"
+              details=""
+              placeholder="Text Input"
+              value={this.state.text}
+              handleChange=""
+              handleClick=""
+            />
           </Grid>
+        </Grid>
+
+        <Grid container lg={12}>
+          <Card></Card>
         </Grid>
       </div>
     );
